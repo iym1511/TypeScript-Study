@@ -8,20 +8,28 @@ export interface Comment{
     comment: string;
 }
 
-// initialState에서 사용할 타입
-export interface CommentsState{
-    comment : Comment[];
-}
+// initialState에서 사용할 타입 (배열안에 한번 더써줄때 방법)
+// export interface CommentsState{
+//     commentlist : Comment[];
+// }
 
 // 타입을 지정받은 initialState
-const initialState:CommentsState={
-    comment: [
+const initialState:Comment[]=[
         {
             id:0,
             comment:"댓글0번째"
         },
-    ],
-}
+]
+
+// 타입을 지정받은 initialState (배열안에 한번 더써줄때 방법)
+// const initialState:CommentsState={
+//     commentlist: [
+//         {
+//             id:0,
+//             comment:"댓글0번째"
+//         },
+//     ],
+// }
 
 export const commentsSlice = createSlice({
     name: 'comment',
@@ -33,10 +41,13 @@ export const commentsSlice = createSlice({
                 id : nextId,
                 comment: action.payload.comment
             } 
-            state.comment.push(commentAdd)
+            state.push(commentAdd)
+        },
+        deleteComment(state, action:PayloadAction<Comment>){
+            return state.filter((a)=>a.id !== action.payload.id)
         }
     }
 })
 
-export const { addComment } = commentsSlice.actions;
+export const { addComment, deleteComment } = commentsSlice.actions;
 export default commentsSlice.reducer;

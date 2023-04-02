@@ -1,6 +1,7 @@
 import { Store } from "@reduxjs/toolkit";
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import commentsReducer from "./redux/commentsSlice"
+import commentsReducer from "./redux/commentsSlice";
+import dataReducer from "./redux/data";
 
 // const store= configureStore({
 //     reducer:{
@@ -9,11 +10,12 @@ import commentsReducer from "./redux/commentsSlice"
 // })
 
 const rootReducer = combineReducers({
-        comment: commentsReducer
-    })
+    commentlists: commentsReducer,
+    data: dataReducer
+})
 
 const store = configureStore({
-    reducer:rootReducer
+    reducer: rootReducer
 })
 
 
