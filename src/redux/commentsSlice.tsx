@@ -14,7 +14,7 @@ export interface Comment{
 // }
 
 // 타입을 지정받은 initialState
-const initialState:Comment[]=[
+const initialState:Comment[] = [
         {
             id:0,
             comment:"댓글0번째"

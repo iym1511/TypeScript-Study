@@ -4,6 +4,7 @@ import './App.css';
 import Test from './page/Test';
 import Todo from './page/Todo';
 import Todolist from './page/Todolist';
+import NaverApi from './page/NaverApi';
 
 
 
@@ -13,6 +14,7 @@ function App() {
       {/* <Test />
       <Todo /> */}
       <Todolist />
+      <NaverApi />
     </div>
   );
 }
