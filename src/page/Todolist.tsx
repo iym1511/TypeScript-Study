@@ -51,7 +51,7 @@ const Todolist = () => {
             ...todo, text:e.target.value
         })
     }
-
+    
     //  redux-toolkit을 사용한 댓글기능
     const onChangeComment = (e: ChangeEvent<HTMLInputElement>):void =>{
         setComment({
@@ -117,6 +117,7 @@ const Todolist = () => {
                 <input type="text" value={comment.comment} onChange={(e)=>onChangeComment(e)}/>
                 <button type="submit">입력</button>
             </form>
+
             {
                 comments.map((a :Comment, i)=>(
                     <div key={i}>
@@ -138,5 +139,5 @@ const Todolist = () => {
         </div>
     );
 }
- 
+
 export default Todolist;
