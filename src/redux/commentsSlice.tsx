@@ -44,7 +44,7 @@ export const commentsSlice = createSlice({
             state.push(commentAdd)
         },
         deleteComment(state, action:PayloadAction<Comment>){
-            return state.filter((a)=>a.id !== action.payload.id)
+            return state.filter((a :Comment)=>a.id !== action.payload.id)
         }
     }
 })

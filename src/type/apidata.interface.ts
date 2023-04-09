@@ -1,3 +1,5 @@
+// 사용안하는것들 예시 써볼려다가 안지운것
+
 export interface IHttpResp {
     lastBuildDate: string;
     total: number;
