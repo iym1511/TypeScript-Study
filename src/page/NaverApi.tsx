@@ -1,6 +1,7 @@
 // 타입에선 React 임포트 해줘야함
 import React, { FunctionComponent, useEffect, useState } from "react";
 import axios, { AxiosError, AxiosResponse } from "axios";
+import { Com } from "./Todolist";
 
 interface apiType{
     imageUrl4: string,
@@ -58,7 +59,14 @@ interface zxcs {
     koala: string;
 }
 
-const NaverApi: FunctionComponent = () => {
+// React.SetStateAction은 상태를 업데이트하기위한 값의 타입을 제공
+interface Props {
+    setComment: React.Dispatch<React.SetStateAction<Com>>;
+    comment:Com
+}
+
+
+const NaverApi: FunctionComponent<Props> = ({setComment, comment}:Props) => {
 
     const [zxc, setZxc] = useState<zxc[]>([
         {
@@ -167,12 +175,14 @@ const NaverApi: FunctionComponent = () => {
 
     const qwe = (): void => {
         numPlus++
+        setComment({...comment, comment:""})
         array1.push(
             {
                 id: numPlus,
                 name: "asds"
             }
         );
+       
         console.log(array1)
         console.log(array1.map((a)=>a.name))
     }

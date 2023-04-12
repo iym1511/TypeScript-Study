@@ -1,9 +1,10 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, FunctionComponent, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Comment, addComment, deleteComment } from "../redux/commentsSlice";
-import { RootState } from "../store";
+import { AppDispatch, RootState } from "../store";
 import { dataType } from "../redux/data";
+import NaverApi from "./NaverApi";
 
 interface Todo {
     id: number,
@@ -11,7 +12,7 @@ interface Todo {
     isChecked? : boolean
 }
 
-interface Com {
+export interface Com {
     id: number,
     comment: string,
 }
@@ -23,13 +24,17 @@ interface Com {
 //     comment: Com[];
 // }
 
-const Todolist = () => {
 
-    const dispatch = useDispatch()
+
+const Todolist: FunctionComponent = () => {
+
+    const dispatch: AppDispatch = useDispatch()
 
     const comments = useSelector((state :RootState)=> state.commentlists)
     console.log(comments)
     const datalist = useSelector((state :RootState)=> state.data)
+
+    const [test, setTest] = useState();
     
     const [comment, setComment] = useState<Com>({
         id:0,
@@ -136,6 +141,8 @@ const Todolist = () => {
                     </div>
                 ))
             }
+
+            <NaverApi setComment={setComment} comment={comment}/>
         </div>
     );
 }

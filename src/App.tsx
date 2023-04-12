@@ -5,6 +5,7 @@ import Test from './page/Test';
 import Todo from './page/Todo';
 import Todolist from './page/Todolist';
 import NaverApi from './page/NaverApi';
+import LostArkApi from './page/LostArkApi';
 
 
 
@@ -14,7 +15,7 @@ function App() {
       {/* <Test />
       <Todo /> */}
       <Todolist />
-      <NaverApi />
+      <LostArkApi />
     </div>
   );
 }

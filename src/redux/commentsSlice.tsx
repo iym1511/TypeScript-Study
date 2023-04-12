@@ -14,7 +14,7 @@ export interface Comment{
 // }
 
 // 타입을 지정받은 initialState
-const initialState:Comment[] = [
+const initialState: Comment[] = [
         {
             id:0,
             comment:"댓글0번째"
@@ -35,7 +35,7 @@ export const commentsSlice = createSlice({
     name: 'comment',
     initialState,
     reducers:{
-        addComment(state, action : PayloadAction<Comment>){
+        addComment(state, action : PayloadAction<Comment>) {
             nextId++
             const commentAdd:Comment = {
                 id : nextId,
