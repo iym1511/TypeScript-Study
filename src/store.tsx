@@ -20,6 +20,8 @@ const store = configureStore({
 
 
 export type RootState = ReturnType<typeof rootReducer>; // RootState 타입 정의
+// 다른곳에서 dispatch 사용할때 타입오류 안나게 보장해줌
+export type AppDispatch = typeof store.dispatch;
 
 export default store
 
