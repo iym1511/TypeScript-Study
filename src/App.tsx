@@ -12,10 +12,10 @@ import LostArkApi from './page/LostArkApi';
 function App() {
   return (
     <div className="App">
-      {/* <Test />
-      <Todo /> */}
-      <Todolist />
-      <LostArkApi />
+        {/* <Test />
+        <Todo /> */}
+        <Todolist />
+        <LostArkApi />
     </div>
   );
 }
