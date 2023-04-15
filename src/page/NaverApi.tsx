@@ -1,7 +1,8 @@
 // 타입에선 React 임포트 해줘야함
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { ChangeEvent, FunctionComponent, useCallback, useEffect, useState } from "react";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { Com } from "./Todolist";
+import useInput, { UseInputReturnType } from "../hooks/useInput";
 
 interface apiType{
     imageUrl4: string,
@@ -65,26 +66,19 @@ interface Props {
     comment:Com
 }
 
+let numPlus = 0;
 
 const NaverApi: FunctionComponent<Props> = ({setComment, comment}:Props) => {
 
-    const [zxc, setZxc] = useState<zxc[]>([
-        {
-            dog: "1",
-            cat: 'moon',
-        }
-    ])
-    
-    const [test, setTest] = useState<study[]>([
-        {
-            id:1,
-            name:"MOON",
-        }
-    ])
+    const [loading, setLoading] = useState<boolean | null>(null);
 
-    useEffect(()=>(
-        [1,2,"3"].forEach((a)=> {console.log(a)})
-    ),[])
+    const [name, onChangeName]:UseInputReturnType = useInput("");
+    
+    
+
+    // useEffect(()=>(
+    //     [1,2,"3"].forEach((a)=> {console.log(a)})
+    // ),[])
 
     
     
@@ -116,6 +110,7 @@ const NaverApi: FunctionComponent<Props> = ({setComment, comment}:Props) => {
     // state에서 사용해줄 items타입을 지정해서 state에 먹여주고
     const [apiData,setApiData] = useState<apiType[]>([])
         
+
     // 미리 만들어준 items를 제외한 나머지 타입을 지정해서 axios.get에다가 타입을 지정해준다
     interface Post {
         response: {
@@ -134,17 +129,18 @@ const NaverApi: FunctionComponent<Props> = ({setComment, comment}:Props) => {
         try{                                    // AxiosResponse<> = any로 뜨는게 싫을때? 사용
             const response = await axios.get<Post, AxiosResponse<Post>>('http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMinuDustFrcstDspth?searchDate=2023-04-08&returnType=json&serviceKey=T8f%2Bzud6ZCplc0UNr9TV7YXgtE9csbbJ0hveDrVp1zN74Z8Vo86VCeXCpvQCKD8vyWP6kcTb87sq%2Bt%2F5W%2BXi%2Fw%3D%3D&numOfRows=100&pageNo=1');
             setApiData(response.data.response.body.items);
-            console.log(response.data)
+            // console.log(response.data)
         } catch(err) {
             if(axios.isAxiosError(err)){ // 커스텀 타입가드
                 console.error((err as AxiosError<{message: string}>).response?.data.message);
             }
+            setLoading(false);
             alert("Error")
         }
     }
-    console.log(apiData);
+    // console.log(apiData);
 
-
+  
     
     useEffect(()=>{
         api()
@@ -154,9 +150,9 @@ const NaverApi: FunctionComponent<Props> = ({setComment, comment}:Props) => {
 
     const asd = apiData.filter((a :apiType)=>{a.dataTime.includes("23")})
 
-    console.log(apiData.map((a)=> a.informGrade));
+    // console.log(apiData.map((a)=> a.informGrade));
 
-    let numPlus = 0;
+
 
     const [testArray, setTestArray] = useState<testType>(
         {
@@ -168,24 +164,23 @@ const NaverApi: FunctionComponent<Props> = ({setComment, comment}:Props) => {
 
     const [array1, setArray1] = useState<testType[]>([
         {
-            id:0,
+            id:numPlus,
             name:"test1"
         }
     ])
 
-    const qwe = (): void => {
-        numPlus++
+    const qwe = useCallback((): void => {
         setComment({...comment, comment:""})
         array1.push(
             {
-                id: numPlus,
+                id: numPlus++,
                 name: "asds"
             }
         );
        
         console.log(array1)
         console.log(array1.map((a)=>a.name))
-    }
+    },[]);
 
     useEffect(()=>{
         console.log(array1)
@@ -201,14 +196,32 @@ const NaverApi: FunctionComponent<Props> = ({setComment, comment}:Props) => {
     }
     test2(1,2)
 
+    console.log(name)
+
+    const [trans, setTrans] = useState<{ [x: string]: string }>({})
+
+    const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
+        const additUser = {
+            [e.target.name]: e.target.value,
+        };
+        setTrans(additUser);
+    };
+
     
+    console.log(trans)
 
     return ( 
         <div>
+            <div style={{border:"1px solid blue"}}>
+                <input type="text" name="id" onChange={onChange}/>
+                <input type="password" name="password" onChange={onChange}/>
+            </div>
+
+            <input type="text" onChange={onChangeName}/>
             <button onClick={qwe}>asdads</button>
             
             {
-                array1.map((a :testType) : any =>(
+                array1.map((a :testType) => (
                     <div style={{border:"1px solid red"}}>
                         <p>{a.name}</p>
                         <p>{a.id}</p>
@@ -226,7 +239,7 @@ const NaverApi: FunctionComponent<Props> = ({setComment, comment}:Props) => {
             } */}
 
             {
-                apiData.map((a :apiType)=>(
+                apiData.map((a :apiType) => (
                     <div style={{border:"1px solid red"}}>
                         {/* <img src={a.imageUrl1} alt="" /> */}
                         <p>{a.dataTime}</p>

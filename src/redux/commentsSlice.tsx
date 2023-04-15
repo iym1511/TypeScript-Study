@@ -46,7 +46,7 @@ export const commentsSlice = createSlice({
         deleteComment(state, action:PayloadAction<Comment>){
             return state.filter((a :Comment)=>a.id !== action.payload.id)
         }
-    }
+    },
 })
 
 export const { addComment, deleteComment } = commentsSlice.actions;
