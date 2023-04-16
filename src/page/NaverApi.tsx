@@ -3,6 +3,10 @@ import React, { ChangeEvent, FunctionComponent, useCallback, useEffect, useState
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { Com } from "./Todolist";
 import useInput, { UseInputReturnType } from "../hooks/useInput";
+import { useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store";
+import { useDispatch } from "react-redux";
+import { asyncFetch } from "../redux/thunk";
 
 interface apiType{
     imageUrl4: string,
@@ -73,7 +77,18 @@ const NaverApi: FunctionComponent<Props> = ({setComment, comment}:Props) => {
     const [loading, setLoading] = useState<boolean | null>(null);
 
     const [name, onChangeName]:UseInputReturnType = useInput("");
+
+    const dispatch:AppDispatch = useDispatch();
     
+    // redux-toolkit thunk 연습
+    const items = useSelector((state: RootState) => state.thunk.data)
+    const status = useSelector((state: RootState) => {
+        return state.thunk.status;
+    })
+
+    const reduxThunk = () => {
+        dispatch(asyncFetch())
+    } 
     
 
     // useEffect(()=>(
@@ -207,7 +222,6 @@ const NaverApi: FunctionComponent<Props> = ({setComment, comment}:Props) => {
         setTrans(additUser);
     };
 
-    
     console.log(trans)
 
     return ( 
@@ -247,7 +261,20 @@ const NaverApi: FunctionComponent<Props> = ({setComment, comment}:Props) => {
                     </div>
                 ))
             }
-
+            <div>
+                <button onClick={reduxThunk}>redux-toolkit-thunk</button>
+                {status}
+                {   items
+                    ? items.map((item: apiType) => (
+                        <div>
+                            <p>{item.dataTime}</p>
+                            <p style={{border:"1px solid red"}}>{item.informGrade}</p>
+                            <p>{item.informOverall}</p>
+                        </div>
+                    ))
+                    : null
+                }
+            </div>
         </div>
     );
 }

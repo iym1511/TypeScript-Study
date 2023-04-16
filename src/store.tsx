@@ -2,6 +2,7 @@ import { Store } from "@reduxjs/toolkit";
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import commentsReducer from "./redux/commentsSlice";
 import dataReducer from "./redux/data";
+import thunkReducer from "./redux/thunk"
 
 // const store= configureStore({
 //     reducer:{
@@ -11,7 +12,8 @@ import dataReducer from "./redux/data";
 
 const rootReducer = combineReducers({
     commentlists: commentsReducer,
-    data: dataReducer
+    data: dataReducer,
+    thunk: thunkReducer
 })
 
 const store = configureStore({
