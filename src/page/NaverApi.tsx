@@ -3,10 +3,11 @@ import React, { ChangeEvent, FunctionComponent, useCallback, useEffect, useState
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { Com } from "./Todolist";
 import useInput, { UseInputReturnType } from "../hooks/useInput";
-import { useSelector } from "react-redux";
+import { TypedUseSelectorHook, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { useDispatch } from "react-redux";
 import { asyncFetch } from "../redux/thunk";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
 
 interface apiType{
     imageUrl4: string,
@@ -78,11 +79,12 @@ const NaverApi: FunctionComponent<Props> = ({setComment, comment}:Props) => {
 
     const [name, onChangeName]:UseInputReturnType = useInput("");
 
+
     const dispatch:AppDispatch = useDispatch();
     
     // redux-toolkit thunk 연습
     const items = useSelector((state: RootState) => state.thunk.data)
-    const status = useSelector((state: RootState) => {
+    const status = useAppSelector((state) => {
         return state.thunk.status;
     })
 
@@ -150,12 +152,11 @@ const NaverApi: FunctionComponent<Props> = ({setComment, comment}:Props) => {
                 console.error((err as AxiosError<{message: string}>).response?.data.message);
             }
             setLoading(false);
-            alert("Error")
         }
     }
     // console.log(apiData);
 
-  
+
     
     useEffect(()=>{
         api()

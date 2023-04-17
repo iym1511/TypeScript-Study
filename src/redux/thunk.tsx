@@ -26,24 +26,26 @@ interface Post {
         };
     };
 }
-interface initialStateType{
+interface initialStateType {
     status: string;
     data: apiType[] | null;
-    error: null
+}
+
+interface error {
+    message:string
 }
 
 export const asyncFetch = createAsyncThunk(
     'thunkSlice/asyncFetch',
     async ():Promise<apiType[]> => { // return되는값이 apiType[] 이기때문
-        const response = await axios.get<Post, AxiosResponse<Post>>('http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMinuDustFrcstDspth?searchDate=2023-04-16&returnType=json&serviceKey=T8f%2Bzud6ZCplc0UNr9TV7YXgtE9csbbJ0hveDrVp1zN74Z8Vo86VCeXCpvQCKD8vyWP6kcTb87sq%2Bt%2F5W%2BXi%2Fw%3D%3D&numOfRows=100&pageNo=1');
-        return response.data.response.body.items
+            const response = await axios.get<Post, AxiosResponse<Post>>('http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMinuDustFrcstDspth?searchDate=2023-04-16&returnType=json&serviceKey=T8f%2Bzud6ZCplc0UNr9TV7YXgtE9csbbJ0hveDrVp1zN74Z8Vo86VCeXCpvQCKD8vyWP6kcTb87sq%2Bt%2F5W%2BXi%2Fw%3D%3D&numOfRows=100&pageNo=1');
+            return response.data.response.body.items
     }
 )
 
 const initialState: initialStateType = {
     status: 'idle',
     data: null,
-    error: null
 }
 
 const thunkSlice = createSlice({
@@ -52,12 +54,13 @@ const thunkSlice = createSlice({
     reducers:{
     },
     extraReducers: (builder) => {
-        builder.addCase(asyncFetch.pending, (state, action): void => {
+        builder.addCase(asyncFetch.pending, (state): void => {
             state.status = 'loading';
         });
         builder.addCase(asyncFetch.fulfilled, (state, action:PayloadAction<apiType[]>): void => {
             state.data = action.payload;
             state.status = 'complete';
+            console.log(action.payload)
         });
         builder.addCase(asyncFetch.rejected, (state): void => {
             state.status = 'error';
