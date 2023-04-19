@@ -1,5 +1,5 @@
 // 타입에선 React 임포트 해줘야함
-import React, { ChangeEvent, FunctionComponent, useCallback, useEffect, useState } from "react";
+import React, { ChangeEvent, FormEvent, FunctionComponent, useCallback, useEffect, useState } from "react";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { Com } from "./Todolist";
 import useInput, { UseInputReturnType } from "../hooks/useInput";
@@ -225,8 +225,30 @@ const NaverApi: FunctionComponent<Props> = ({setComment, comment}:Props) => {
 
     console.log(trans)
 
+    // 프리온보딩에서 로그인할떄 썻던 FormData데이터 받아오는거 확인 연습용
+    // 데이터를 fetch해서 보내줄때 FormData를 사용하는거같다
+    const formData = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        const formData = new FormData(event.currentTarget)
+        console.log(formData)
+        const loginResult = ({
+            username: formData.get('username') as string,
+            password: formData.get('password') as string
+        })
+        console.log(loginResult)
+        
+    }
+
     return ( 
         <div>
+            <form onSubmit={formData}>
+                <label>id</label>
+                <input type="text" name="username"/>
+                <label>password</label>
+                <input type="password" name="password"/>
+                <button type="submit" value="submit">테스트버튼띠</button>
+            </form>
+
             <div style={{border:"1px solid blue"}}>
                 <input type="text" name="id" onChange={onChange}/>
                 <input type="password" name="password" onChange={onChange}/>
@@ -268,7 +290,7 @@ const NaverApi: FunctionComponent<Props> = ({setComment, comment}:Props) => {
                 {   items
                     ? items.map((item: apiType) => (
                         <div>
-                            <p>{item.dataTime}</p>
+                            <p> {item.dataTime} </p>
                             <p style={{border:"1px solid red"}}>{item.informGrade}</p>
                             <p>{item.informOverall}</p>
                         </div>

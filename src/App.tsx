@@ -6,16 +6,20 @@ import Todo from './page/Todo';
 import Todolist from './page/Todolist';
 import NaverApi from './page/NaverApi';
 import LostArkApi from './page/LostArkApi';
+import { Route, RouterProvider, Routes } from 'react-router-dom';
+import { routers } from './router';
 
 
 
 function App() {
   return (
     <div className="App">
+      <RouterProvider router={routers}/>
+      
         {/* <Test />
         <Todo /> */}
-        <Todolist />
-        <LostArkApi />
+        {/* <Todolist />
+        <LostArkApi /> */}
     </div>
   );
 }

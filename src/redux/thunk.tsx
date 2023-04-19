@@ -31,9 +31,6 @@ interface initialStateType {
     data: apiType[] | null;
 }
 
-interface error {
-    message:string
-}
 
 export const asyncFetch = createAsyncThunk(
     'thunkSlice/asyncFetch',
