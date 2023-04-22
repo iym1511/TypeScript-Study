@@ -26,7 +26,6 @@ const routerData: RouterElement[] = [
         path: '/',
         label: 'Home',
         element: <Home />,
-        
         withAuth: false
     },
     {
@@ -62,7 +61,7 @@ const routerData: RouterElement[] = [
 // 프리온보딩 3회차 참고
   // 인증이 필요한 페이지는 GeneralLayout 으로 감싸기
   // GeneralLayout 에는 페이지 컴포넌트를 children 으로 전달
-export const routers: RemixRouter = createBrowserRouter(
+export const router1: RemixRouter = createBrowserRouter(
     routerData.map((router)=>{
         if(router.withAuth){
             return {

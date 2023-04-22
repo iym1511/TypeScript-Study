@@ -141,12 +141,14 @@ const NaverApi: FunctionComponent<Props> = ({setComment, comment}:Props) => {
     }
 
 
+
+
     // searchDate= 에서 newDate 를 사용하여 변수로 넣어서 실시간처럼 바꿔줄수도있음 a
     const api = async (): Promise<void> =>{
         try{                                    // AxiosResponse<> = any로 뜨는게 싫을때? 사용
             const response = await axios.get<Post, AxiosResponse<Post>>('http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMinuDustFrcstDspth?searchDate=2023-04-08&returnType=json&serviceKey=T8f%2Bzud6ZCplc0UNr9TV7YXgtE9csbbJ0hveDrVp1zN74Z8Vo86VCeXCpvQCKD8vyWP6kcTb87sq%2Bt%2F5W%2BXi%2Fw%3D%3D&numOfRows=100&pageNo=1');
-            setApiData(response.data.response.body.items);
-            // console.log(response.data)
+            setApiData(response.data.response.body.items)
+            console.log(response.data)
         } catch(err) {
             if(axios.isAxiosError(err)){ // 커스텀 타입가드
                 console.error((err as AxiosError<{message: string}>).response?.data.message);
@@ -193,7 +195,6 @@ const NaverApi: FunctionComponent<Props> = ({setComment, comment}:Props) => {
                 name: "asds"
             }
         );
-       
         console.log(array1)
         console.log(array1.map((a)=>a.name))
     },[]);
