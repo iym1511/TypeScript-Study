@@ -69,6 +69,25 @@ interface initialStateType {
     apiData: List[] | null
 }
 
+// parmas에 넣어주기 4월 24일에
+    let latitude:any = [];
+    let longitude:any = [];
+
+const onGeoOkay = (position: any) => {
+    let lat = position.coords.latitude;
+    let lon = position.coords.longitude;
+    latitude.push(lat);
+    longitude.push(lon);
+    console.log(latitude);
+    console.log(longitude)
+}
+function onGeoError() {
+    alert("I can't find you. No weather for you.");
+}
+
+
+navigator.geolocation.getCurrentPosition(onGeoOkay, onGeoError);
+
 
 export const asyncFetch = createAsyncThunk(
     'WeatherSlice/asyncFetch',

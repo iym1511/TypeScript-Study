@@ -108,6 +108,18 @@ const Whether:FunctionComponent = () => {
     },[])
 
 
+    const onGeoOkay = (position: any) => {
+        console.log(position);
+    }
+
+    function onGeoError() {
+        alert("I can't find you. No weather for you.");
+    }
+
+    navigator.geolocation.getCurrentPosition(onGeoOkay, onGeoError);
+
+
+
 
     return (  
         <div>
