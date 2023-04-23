@@ -1,5 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 import { FunctionComponent, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
+import { asyncFetch } from "../redux/weatherThunk";
 
 interface Coord {
     lon: number;
@@ -38,16 +42,6 @@ interface Coord {
     all: number;
   }
   
-  interface City {
-    id: number;
-    name: string;
-    coord: Coord;
-    country: string;
-    population: number;
-    timezone: number;
-    sunrise: number;
-    sunset: number;
-  }
   interface List {
     coord: Coord;
     sys: Sys;
@@ -59,9 +53,9 @@ interface Coord {
     dt: number;
     id: number;
     name: string;
-  }
-  
-  interface WeatherData {
+}
+
+interface WeatherData {
     cnt: number;
     list: List[];
 }
@@ -75,8 +69,19 @@ interface Coord {
 
 const Whether:FunctionComponent = () => {
 
+    const WeatherStatus = useAppSelector((state)=> state.weather.default);
+    const WeatherData = useAppSelector((state)=> {return state.weather.apiData});
+
+    const dispatch = useAppDispatch();
+
+    const WeatherThunk = () => {
+        dispatch(asyncFetch());
+    }
+
+    console.log(WeatherData);
     const [weatherApi, setWeatherApi] = useState<List[]>([]);
 
+    // return이 axios.get 일때 AxiosResponse 타입도 같이 지정해줘야 한다.
     const api = async():Promise<AxiosResponse<WeatherData>> => {
         const params: Params = {
             id : "1835847,1841610,1843125,1845106,1845105,1845789,1845788,1841597,1902028,1846265",
@@ -88,22 +93,38 @@ const Whether:FunctionComponent = () => {
         return res;
     }
 
-    const weather = async():Promise<void> => {
-        const res = await api();
-        setWeatherApi(res.data.list);
-        console.log(res.data);
-    }
 
-    
+    useEffect(() => {
+        const apiData = async ():Promise<void> => {
+            const res = await api();
+            setWeatherApi(res.data.list);
+            console.log(res.data);
+        };
+        apiData();
+    }, []);
+
+    useEffect(()=>{
+        WeatherThunk();
+    },[])
+
 
 
     return (  
         <div>
-            <button onClick={weather}>날씨api</button>
+            <h1>날씨 api Test</h1>
             {
-                weatherApi.map((a: any)=>(
+                weatherApi.map((a)=>(
                     <div>
-                        
+                        {a.name}
+                    </div>
+                ))
+            }
+            <h1>날씨 api redux-thunk</h1>
+            {WeatherStatus}
+            {   WeatherData &&
+                WeatherData.map((a:List)=>(
+                    <div>
+                        {a.name}
                     </div>
                 ))
             }

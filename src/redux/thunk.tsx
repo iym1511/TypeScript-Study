@@ -26,7 +26,9 @@ interface Post {
         };
     };
 }
+
 interface initialStateType {
+    [x: string]: any;
     status: string;
     data: apiType[] | null;
 }
@@ -51,14 +53,17 @@ const thunkSlice = createSlice({
     reducers:{
     },
     extraReducers: (builder) => {
+        // 불러오는 로딩
         builder.addCase(asyncFetch.pending, (state): void => {
             state.status = 'loading';
         });
+        // 불러왔을 때
         builder.addCase(asyncFetch.fulfilled, (state, action:PayloadAction<apiType[]>): void => {
             state.data = action.payload;
             state.status = 'complete';
             console.log(action.payload)
         });
+        // 불러오기 실패
         builder.addCase(asyncFetch.rejected, (state): void => {
             state.status = 'error';
         });

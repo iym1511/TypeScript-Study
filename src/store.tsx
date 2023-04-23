@@ -3,6 +3,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import commentsReducer from "./redux/commentsSlice";
 import dataReducer from "./redux/data";
 import thunkReducer from "./redux/thunk"
+import weatherThunk from "./redux/weatherThunk";
 
 // const store= configureStore({
 //     reducer:{
@@ -13,7 +14,8 @@ import thunkReducer from "./redux/thunk"
 const rootReducer = combineReducers({
     commentlists: commentsReducer,
     data: dataReducer,
-    thunk: thunkReducer
+    thunk: thunkReducer,
+    weather: weatherThunk
 })
 
 const store = configureStore({
